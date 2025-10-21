@@ -1,9 +1,9 @@
-FROM golang:1.23.4 as go-build
+FROM golang:1.23.4 AS go-build
 COPY . /go/src/github.com/keel-hq/keel
 WORKDIR /go/src/github.com/keel-hq/keel
 RUN make install
 
-FROM node:16.20.2-alpine as yarn-build
+FROM node:16.20.2-alpine AS yarn-build
 WORKDIR /app
 COPY ui /app
 RUN yarn
@@ -26,7 +26,7 @@ COPY --from=yarn-build /app/dist /www
 USER $USER_ID
 
 VOLUME /data
-ENV XDG_DATA_HOME /data
+ENV XDG_DATA_HOME=/data
 
 ENTRYPOINT ["/bin/keel"]
 EXPOSE 9300
